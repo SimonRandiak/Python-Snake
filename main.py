@@ -55,6 +55,12 @@ def Collision(x1, y1, x2, y2):
         return True
     return False
 
+def SnakeBodyCollision(snake_body):
+    for snake in snake_body[1:]:
+        if Collision(snake_body[0][0], snake_body[0][1], snake[0], snake[1]):
+            return True
+    return False
+
 if __name__ == "__main__":
     pygame.init()
     window = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -89,13 +95,15 @@ if __name__ == "__main__":
         
         if spawn_food:
             food = GetFoodPosition()
+            while food in snake_body:
+                food = GetFoodPosition()
             spawn_food = False
-        for x in snake_body[1:]:
-            if len(snake_body) < 4:
-                break
-            if Collision(snake_head[0], snake_head[1], x[0], x[1]):
+        
+        if len(snake_body) > 4:
+            if SnakeBodyCollision(snake_body):
                 print("Game Over")
                 sys.exit()
+
         if Collision(snake_body[0][0], snake_body[0][1], food[0], food[1]):
             spawn_food = True
             food = [0,0]
