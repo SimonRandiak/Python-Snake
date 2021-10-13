@@ -60,6 +60,12 @@ def SnakeBodyCollision(snake_body):
         if Collision(snake_body[0][0], snake_body[0][1], snake[0], snake[1]):
             return True
     return False
+def OutOfBoard(snake_head):
+    if snake_head[0] < 0 or snake_head[0] > GRID_X:
+        return True
+    elif snake_head[1] < 0 or snake_head[1] > GRID_Y:
+        return True
+    return False
 
 if __name__ == "__main__":
     pygame.init()
@@ -98,19 +104,20 @@ if __name__ == "__main__":
             while food in snake_body:
                 food = GetFoodPosition()
             spawn_food = False
+        if OutOfBoard(snake_body[0]):
+            print("Game Over")
+            loop = False 
         
         if len(snake_body) > 4:
             if SnakeBodyCollision(snake_body):
                 print("Game Over")
-                sys.exit()
+                loop = False 
 
         if Collision(snake_body[0][0], snake_body[0][1], food[0], food[1]):
             spawn_food = True
             food = [0,0]
         else:
             snake_body.pop()
-
-        print(snake_body)
 
         window.fill((0,0,0))
         DrawSnake(window, snake_body)

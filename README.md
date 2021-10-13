@@ -10,5 +10,6 @@ Simple Snake game in Python3.9
 ## Features
 * Food and Snake Collision
 * Random Food generation
-* Snake body collisions
+* Snake body collision
+* Out of board check
 
